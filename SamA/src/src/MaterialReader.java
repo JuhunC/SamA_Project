@@ -1,3 +1,4 @@
+package src;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
 import java.io.*;
@@ -39,6 +40,8 @@ public class MaterialReader {
 	        		
 	        		// 제품코드
 	        		material_code = df.formatCellValue(row.getCell(0));
+	        		if(material_code.length() <=0)
+	        			continue;
 	        		// ROLL
 	        		ROLL = df.formatCellValue(row.getCell(1));
 	        		// STRIP LOT

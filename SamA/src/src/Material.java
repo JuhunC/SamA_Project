@@ -1,3 +1,4 @@
+package src;
 import java.util.*;
 import java.text.*;
 public class Material {
@@ -39,6 +40,9 @@ public class Material {
 			e.printStackTrace();
 			System.err.println("Wrong Date Format");
 		}		
+	}
+	String getMaterial_M() {
+		return ""+ material_code.charAt(material_code.length()-1);
 	}
 	void print() {
 		System.out.println(

@@ -1,3 +1,4 @@
+package src;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.*;
 import java.io.*;
@@ -33,6 +34,7 @@ public class OrderReader {
 	        		int team_num;				// 팀
 	        		String customer;			// 고객명
 	        		String order_type;			// 품목
+	        		String specific_order_type;	// 세부품목
 	        		boolean consider = false;	// 폭조합
 	        		String order_code;			// 제품코드
 	        		float order_thickness;		// 두께
@@ -45,13 +47,14 @@ public class OrderReader {
 	        		char doubling;				// 권취
 	        		int core_bore;				// 내경
 	        		String core_type;			// 코아
-	        		char material_m;			// 원자재_M (제품생산구분)
+	        		String material_m;			// 원자재_M (제품생산구분)
 	        		String material_temper;		// 원자재_T (원자재 TEMPER)
-	        		
+	        		Vector<Float> weightByWeek = new Vector<Float>();	// 매주 투입량
 	        		// 팀
 	        		tmp = df.formatCellValue(row.getCell(0));
-	        		if(tmp == "")
-	        			team_num = error;
+	        		if(tmp == "") {
+	        			team_num = error; continue;
+	        		}
 	        		else team_num = Integer.parseInt(tmp);
 	        		
 	        		// 고객명
@@ -59,6 +62,8 @@ public class OrderReader {
 	        		
 	        		// 품목
 	        		order_type = df.formatCellValue(row.getCell(3));
+	        		
+	        		specific_order_type= df.formatCellValue(row.getCell(4));
 	        		
 	        		// 폭조합
 	        		if(df.formatCellValue(row.getCell(6))=="O") {
@@ -122,10 +127,22 @@ public class OrderReader {
 	        		// 원자재_M
 	        		tmp = df.formatCellValue(row.getCell(17));
 	        		if(tmp == "")
-	        			material_m = (char)error;
-	        		else material_m = tmp.charAt(0);
+	        			material_m = "";
+	        		else material_m = tmp;
 	        		
 	        		material_temper = df.formatCellValue(row.getCell(18));
+	        		
+	        		for(int i =0;i<12;i++) {
+	        			tmp = df.formatCellValue(row.getCell(22+i));
+	        			
+	        			if(tmp.length()>0) {
+	        				System.out.println(tmp);
+	        				weightByWeek.add(Float.parseFloat(tmp));
+	        			}
+	        			else {
+	        				weightByWeek.add(0.0f);
+	        			}
+	        		}
 	        		
 	        		// TODO: add order weight by month(check excel file)
 	        		
@@ -137,12 +154,13 @@ public class OrderReader {
 	        				&& doubling != error
 	        				&& core_bore != error
 	        				&& core_type != ""
-	        				&& material_m != error
+	        				&& material_m != ""
 	        				) {
 		        		orders.add(new Order(
 		        				team_num,
 		        				customer,
 		        				order_type,
+		        				specific_order_type,
 		        				consider,
 		        				order_code,
 		        				order_thickness,
@@ -156,7 +174,8 @@ public class OrderReader {
 		        				core_bore,
 		        				core_type,
 		        				material_m,
-		        				material_temper      				
+		        				material_temper,
+		        				weightByWeek
 		        				));
 	        		}
 	        	}

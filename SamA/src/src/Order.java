@@ -1,8 +1,10 @@
+package src;
 import java.util.*;
 public class Order {
 	public int team_num;				// 팀
 	public String customer;				// 고객명
 	public String order_type;			// 품목
+	public String specific_order_type;	// 세부품목
 	public boolean consider = false;	// 폭조합
 	public String order_code;			// 제품코드
 	public float order_thickness;		// 두께
@@ -16,13 +18,15 @@ public class Order {
 	public char doubling;				// 권취
 	public int core_bore;				// 내경
 	public String core_type;			// 코아
-	public char material_m;				// 원자재_M (제품생산구분)
+	public Vector<String> material_m = new Vector<String>();	// 원자재_M (제품생산구분)
 	public String material_temper;		// 원자재_T (원자재 TEMPER)
-	void print() {
+	public Vector<Float> weightByWeek;	// 매주 원자재 투입량
+	public void print() {
 		System.out.println(
 				team_num +"\t"
-				//+ customer + "\t"
+				+ customer + "\t"
 				+ order_type + "\t"
+				+ specific_order_type+"\t"
 				+ consider + "\t"
 				+ order_code + "      \t"
 				+ order_thickness + "\t"
@@ -38,12 +42,13 @@ public class Order {
 				+ core_type + "\t"
 				+ material_m + "\t"
 				+ material_temper + "\t"
-				
+				+ weightByWeek+"\t"
 				);
 	}
 	Order(int team_num, 
 			String customer,
 			String order_type,
+			String specific_order_type,
 			boolean consider,
 			String order_code,
 			float order_thickness,
@@ -56,12 +61,14 @@ public class Order {
 			char doubling,
 			int core_bore,
 			String core_type,
-			char material_m,
-			String material_temper
+			String material_m,
+			String material_temper,
+			Vector<Float> weightByWeek
 			){
 		this.team_num = team_num;
 		this.customer = customer;
 		this.order_type = order_type;
+		this.specific_order_type = specific_order_type;
 		this.consider = consider;
 		this.order_code = order_code;
 		this.order_thickness = order_thickness;
@@ -79,7 +86,11 @@ public class Order {
 		this.doubling = doubling;
 		this.core_bore = core_bore;
 		this.core_type = core_type;
-		this.material_m = material_m;
+		String arr1[] = material_m.split(",");
+		for(String str:arr1) {
+			this.material_m.add(str);
+		}
 		this.material_temper = material_temper;
+		this.weightByWeek = weightByWeek;
 	}
 }
