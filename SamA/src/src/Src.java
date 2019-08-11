@@ -2,6 +2,7 @@ package src;
 import java.util.*;
 import Sort.*;
 public class Src {
+	public static boolean verbose = false;
 	public static String order_plan_dir="./생산계획_작성중.xls";
 	public static String material_dir="./원자재내역.xls";
 	public static String format_dir = "./폭조합용 세부자료_V1_190726.xls";
@@ -12,6 +13,7 @@ public class Src {
 
 		for(int i =0;i<13;i++) {
 			Vector<Order> weekOrder = Sort.getWeekOrder(orders, i);
+			
 			System.out.println(i+" week : "+weekOrder.size()+" orders");
 		}
 		

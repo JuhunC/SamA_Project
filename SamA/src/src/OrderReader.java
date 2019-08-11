@@ -134,14 +134,19 @@ public class OrderReader {
 	        		
 	        		for(int i =0;i<12;i++) {
 	        			tmp = df.formatCellValue(row.getCell(22+i));
-	        			
-	        			if(tmp.length()>0) {
-	        				System.out.println(tmp);
+	        		
+	        			try {
 	        				weightByWeek.add(Float.parseFloat(tmp));
-	        			}
-	        			else {
+	        			}catch(NumberFormatException e) {
 	        				weightByWeek.add(0.0f);
 	        			}
+//	        			if(tmp.length()>0) {
+//	        				System.out.println(tmp);
+//	        				weightByWeek.add(Float.parseFloat(tmp));
+//	        			}
+//	        			else {
+//	        				weightByWeek.add(0.0f);
+//	        			}
 	        		}
 	        		
 	        		// TODO: add order weight by month(check excel file)
@@ -180,9 +185,11 @@ public class OrderReader {
 	        		}
 	        	}
 	        }
-	        for(Order ord : orders) {
-	        	ord.print();
-	        }System.out.println("Number of Order : " + orders.size());
+	        if(Src.verbose==true) {
+		        for(Order ord : orders) {
+		        	ord.print();
+		        }System.out.println("Number of Order : " + orders.size());
+	        }
 				        
 		} catch (EncryptedDocumentException e) {
 			System.err.println("Wrong Format File : " + file_path);

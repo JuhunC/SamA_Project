@@ -101,10 +101,11 @@ public class MaterialReader {
 		}catch(NumberFormatException e) {
 			e.printStackTrace();
 		}
-		
-		for(Material mat: materials) {
-			mat.print();
-		}System.out.println("Number of Materials : "+ materials.size());
+		if(Src.verbose == true) {
+			for(Material mat: materials) {
+				mat.print();
+			}System.out.println("Number of Materials : "+ materials.size());
+		}
 		
 		return materials;
 	}
