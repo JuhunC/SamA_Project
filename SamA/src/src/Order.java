@@ -1,6 +1,6 @@
 package src;
 import java.util.*;
-public class Order {
+public class Order implements Comparable<Order>{
 	public int team_num;				// ÆÀ
 	public String customer;				// °í°´¸í
 	public String order_type;			// Ç°¸ñ
@@ -92,5 +92,9 @@ public class Order {
 		}
 		this.material_temper = material_temper;
 		this.weightByWeek = weightByWeek;
+	}
+	@Override
+	public int compareTo(Order ord) {
+		return (int)(ord.order_breadth - this.order_breadth);
 	}
 }

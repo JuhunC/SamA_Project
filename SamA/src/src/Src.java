@@ -11,16 +11,33 @@ public class Src {
 		Vector<Order> orders = OrderReader.Read(format_dir);
 		Vector<Material> materials = MaterialReader.Read(material_dir);
 
+		
+		
 		for(int i =0;i<13;i++) {
 			Vector<Order> weekOrder = Sort.getWeekOrder(orders, i);
-			
 			System.out.println(i+" week : "+weekOrder.size()+" orders");
+		}
+		Vector<Order> week1_ords = new Vector<Order>();
+		for(Order ord : orders) {
+			if(ord.weightByWeek.elementAt(0)!=0) {
+				week1_ords.add(ord);
+			}
 		}
 		
 		
 		
-		System.out.println(Calculate.getTimes(9,24000,1238,4.3));
-		System.out.println(Calculate.getTimes(9,24000,750,2.6));
+		Vector<Roll> rolls = RollDivider.getRolls(week1_ords);
+		
+		for(Roll roll : rolls) {
+			
+			roll.dividedIntoSections();
+			roll.print();
+		}
+		
+		
+		
+//		System.out.println(Calculate.getTimes(9,24000,1238,4.3));
+//		System.out.println(Calculate.getTimes(9,24000,750,2.6));
 		
 	}
 }

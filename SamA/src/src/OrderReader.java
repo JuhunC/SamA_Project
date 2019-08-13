@@ -132,7 +132,7 @@ public class OrderReader {
 	        		
 	        		material_temper = df.formatCellValue(row.getCell(18));
 	        		
-	        		for(int i =0;i<12;i++) {
+	        		for(int i =0;i<13;i++) {
 	        			tmp = df.formatCellValue(row.getCell(22+i));
 	        		
 	        			try {
