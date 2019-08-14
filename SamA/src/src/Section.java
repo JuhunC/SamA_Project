@@ -6,23 +6,27 @@ public class Section {
 	public String core_type;			// ÄÚ¾Æ
 	Vector<Order> ords = new Vector<Order>();
 	
-	void print() {
-		System.out.print("Section:"
-				+order_length +"\t"
-				+core_bore+"\t"
-				+core_type+"\t");
-		for(Order ord: ords) {
-			System.out.print(ord.order_code+"\t");
-		}System.out.println();
-	}
+	/**
+	 * Constructor
+	 * @param ord
+	 */
 	Section(Order ord){
 		this.order_length = ord.order_length;
 		this.core_bore = ord.core_bore;
 		this.core_type = ord.core_type;
 	}
+	/**
+	 * add Order to the Section
+	 * @param ord
+	 */
 	void addOrder(Order ord) {
 		ords.add(ord);
 	}
+	/**
+	 * Decide Order can be used in this Section
+	 * @param ord Order to be tested
+	 * @return boolean
+	 */
 	boolean isSection(Order ord) {
 		if(this.order_length == ord.order_length
 				&& this.core_bore == ord.core_bore
@@ -30,5 +34,18 @@ public class Section {
 			return true;
 		}else
 			return false;
+	}
+	/**
+	 * Print Section Information
+	 */
+	void print() {
+		System.out.print("Section:"
+				+ords.size()+"°³\t"
+				+order_length +"\t"
+				+core_bore+"\t"
+				+core_type+"\t");
+		for(Order ord: ords) {
+			System.out.print(ord.order_code+"\t");
+		}System.out.println();
 	}
 }

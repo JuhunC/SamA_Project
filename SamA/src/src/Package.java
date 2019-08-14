@@ -11,15 +11,15 @@ public class Package {
 	
 	public Vector<Order>ords = new Vector<Order>();
 	public Vector<Material>mats = new Vector<Material>();
-	
+
 	Package(Order ord){
 		this.addOrder(ord);
 		this.order_thickness = ord.order_thickness;
 		this.core_type = ord.core_type;
 		this.core_bore = ord.core_bore;
 		this.order_temper = ord.order_temper;
-		this.alloy_code = ord.alloy_code;
-		this.alloy = ord.alloy;
+		this.alloy_code = ord.alloy_code.elementAt(0);
+		this.alloy = ord.alloy.elementAt(0);
 	}
 	
 	

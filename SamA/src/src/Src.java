@@ -29,7 +29,7 @@ public class Src {
 		Vector<Roll> rolls = RollDivider.getRolls(week1_ords);
 		
 		for(Roll roll : rolls) {
-			
+			System.out.println();
 			roll.dividedIntoSections();
 			roll.print();
 		}

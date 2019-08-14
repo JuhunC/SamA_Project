@@ -2,7 +2,11 @@ package Sort;
 import java.util.*;
 import src.*;
 public class Sort {
-
+	/**
+	 * Sort Orders by Breadth(Æø)
+	 * @param ords
+	 * @return
+	 */
 	public static Vector<Order> sortByBreadth(Vector<Order> ords){
 		Collections.sort(ords);
 		for(Order ord : ords) {
@@ -10,6 +14,12 @@ public class Sort {
 		}
 		return ords;
 	}
+	/**
+	 * Get orders from specific Week
+	 * @param ori_ords
+	 * @param idx
+	 * @return
+	 */
 	public static Vector<Order> getWeekOrder(Vector<Order> ori_ords, int idx){
 		Vector<Order> orders = new Vector<Order>();
 		for(Order ord : ori_ords) {  

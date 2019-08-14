@@ -62,7 +62,7 @@ public class Roll {
 				+this.order_temper +"\t"
 				+this.alloy_code+"\t"
 				+this.doubling+"\t"
-				+this.ords.size()+"\t:\t");
+				+this.ords.size()+"°³\t:\t");
 		for(Order ord:ords) {
 			System.out.print(ord.order_code+"\t");
 		}System.out.println();
