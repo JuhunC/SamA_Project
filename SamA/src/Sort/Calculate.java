@@ -44,7 +44,7 @@ public class Calculate {
 	 * @return weight 	무게(ton)
 	 */
 	public static double getWeight(double thickness, double length, double breadth) {
-		return thickness * breadth * length * 2.71 * 0.000001 * 2 / 1000;
+		return thickness * breadth * length * 2.71 * 0.000001/1000;
 	}
 	/**
 	 * 특정 무게로 몇번 출력 가능한지 횟수 계산
@@ -55,7 +55,8 @@ public class Calculate {
 	 * @return	times	횟수반환(repeat)
 	 */
 	public static int getTimes(double thickness, double length, double breadth, double weight) {
-		double res = weight/getWeight(thickness, length, breadth);
+		double res = weight/(thickness*breadth*length*2.71*0.000001/1000);
+		//System.out.println(res);
 		if(res%1 > 0) {
 			res++;
 		}

@@ -24,7 +24,18 @@ public class Order implements Comparable<Order>{
 	public Vector<String> material_m = new Vector<String>();	// 원자재_M (제품생산구분)
 	public String material_temper;		// 원자재_T (원자재 TEMPER)
 	public Vector<Float> weightByWeek;	// 매주 원자재 투입량
+	public float weight;
+	public int times;
 
+	void setWeek(int start, int end) {
+		float weight_sum = 0.0f;
+		for(int i =start-1; i <= end-1; i++) {
+			weight_sum += this.weightByWeek.elementAt(i);
+		}
+		this.weight = weight_sum;
+		times = Calculate.getTimes(this.order_thickness, this.order_length, this.order_breadth, this.weight);
+		
+	}
 	/**
 	 * Order Constructor(오더 생성자)
 	 * @param team_num	팀
