@@ -18,9 +18,10 @@ public class Material {
 	public double weight;				// 포장중량
 	public Date produced_date;		// 생산일자
 	
-	public int max_len;
-	public boolean isInitialized = false;
-	public float order_thickness;
+	// Grouping Method
+	public int max_len;						// 원자재 최대길이(두께가 order_thickness일 때)
+	public boolean isInitialized = false;	// 오더 테이블 초기화 여부
+	public float order_thickness;			//
 	public String order_alloy_code;
 	public String order_alloy;
 	public String order_temper;
@@ -28,6 +29,7 @@ public class Material {
 	public int core_bore;
 	public String core_type;
 	
+	// Order Table
 	public static int ROW = 100;
 	public static int COL = 10;
 	public float t_breadth[][] = new float[ROW][COL];
@@ -38,35 +40,48 @@ public class Material {
 	public double t_weight_t[] = new double[ROW];
 	public double t_wegiht[][] = new double[ROW][COL];
 	public double t_sum_weight = 0;
+	/**
+	 * get Loss Weight(ton)
+	 * @return
+	 */
 	double getLoss() {
 		update();
 		return this.weight - this.t_sum_weight;
 	}
+	/**
+	 * Print Order Table(if used)
+	 */
 	void printTable() {
 		if(isInitialized == false)
 			return;
 		System.out.println();
-		System.out.println(this.material_code+":"+this.material_breadth+":"+this.getLoss());
+		System.out.println(this.material_code+"\t"+this.material_breadth+"\t"+this.getLoss()+"/"+this.weight);
+		System.out.println(this.core_bore+"\t"+this.core_type+"\t"+doubling+"\t"+order_temper+"\t"+this.alloy);
 		for(int r=0;r<10;r++) {
 			System.out.print(this.t_thickness[r]+"\t|\t");
 			for(int c=0;c<10;c++) {
 				System.out.print(this.t_breadth[r][c]+"\t");
 			}
-			System.out.print("|"+this.t_thickness[r]+"|");
 			System.out.print(this.t_length[r]+"|");
 			System.out.print(this.t_weight_t[r]+"\n");
 		}
 		System.out.println();
 	}
+	/**
+	 * Update Order Table
+	 */
 	void update() {
 		for(int r= 0; r< ROW;r++) {
 			int breadth_sum = 0;
+			int cnt =0;
 			for(int c=0;c<COL;c++) {
 				breadth_sum += this.t_breadth[r][c];
+				if(this.t_breadth[r][c]>0) {
+					cnt++;
+				}
 			}
 			this.t_breadth_total[r] = breadth_sum;
-			this.t_weight_t[r] = this.t_thickness[r]*this.t_breadth_total[r]
-					*this.t_length[r]*2.71*0.000001/1000;
+			this.t_weight_t[r] = Calculate.getWeight(this.t_thickness[r], this.t_length[r], this.material_breadth);
 			for(int c=0;c<COL;c++) {
 				this.t_wegiht[r][c] = this.t_thickness[r]*this.t_breadth[r][c]
 						*this.t_length[r]*2.71*0.000001/1000;
@@ -79,12 +94,19 @@ public class Material {
 			t_length_sum += this.t_length[r];
 		}
 	}
+	/**
+	 * Add Order(if possible)
+	 * @param ord 오더
+	 * @return	boolean
+	 */
 	boolean addOrder(Order ord) {
+		// weight of one Order product
 		double ord_weight = Calculate.getWeight(ord.order_thickness, ord.order_length, ord.order_breadth);
-		//System.out.println(this.getLoss()+"\t:\t"+ord_weight+"\t:\t"+t_sum_weight);
-		if(ord_weight + this.t_sum_weight < this.weight) {
+		
+		if(ord_weight + this.t_sum_weight < this.weight) { // Check OverWeight(무게 초과 확인)
 			for(int r=0;r<ROW;r++) {
-				if(this.t_thickness[r] == 0) {// 새로운 줄을 추가할 떄
+				if(this.t_thickness[r] == 0) {// New Input(row) 열에 첫 오더 추가
+					// 총 길이 초과(열의 합) && 무게 초과 확인(미미 포함)
 					if(this.t_length_sum+ord.order_length < this.max_len
 							&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
 						this.t_thickness[r] = ord.order_thickness;
@@ -92,8 +114,9 @@ public class Material {
 						this.t_length[r] = ord.order_length;
 						return true;
 					}
-					return false; // 너무 길어짐
+					return false; // 길이 초과 혹은 무게 초과(미미포함)
 				}else {
+					// 존재하던 열에 추가
 					if(this.t_thickness[r] == ord.order_thickness) { // 두께 일치
 						int cnt = 0;
 						float sum =0;
@@ -105,7 +128,7 @@ public class Material {
 						}
 						if(cnt<4
 							&& sum + ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, cnt+1)<=this.material_breadth
-							&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, cnt+1)< weight) {
+							&& ord_weight+ this.t_sum_weight < weight) {
 							t_breadth[r][cnt] = ord.order_breadth;
 							return true;
 						}
@@ -114,17 +137,21 @@ public class Material {
 			}// end of for(r)
 		}
 		return false;
-		// weight over
-		// length over
-		// breadth over
 	}
+	/**
+	 * Add Order if Possible(추가 가능한 오더(1개)면 추가하기)
+	 * @param ord 오더
+	 * @return boolean 추가여부
+	 */
 	boolean addIfPossible(Order ord) {
 		update();
 		if(isInitialized == false
 				&& ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) < this.material_breadth
 				&& ord.material_m.elementAt(0).equals(this.getMaterial_M())
 				&& ord.material_temper.equals(this.material_temper)) {
+			// Initialize Order Table for this material
 			isInitialized = true;
+			// Initialize Grouping Method Variable
 			this.order_thickness = ord.order_thickness;
 			this.order_alloy = ord.alloy.elementAt(0);
 			this.order_alloy_code = ord.alloy_code.elementAt(0);
@@ -133,10 +160,11 @@ public class Material {
 			this.core_bore = ord.core_bore;
 			this.core_type = ord.core_type;
 			this.max_len = Calculate.calculateOrderLength((double)this.order_thickness, (double)this.material_breadth, (int)this.weight*1000);
+			
+			// Add order(오더 추가)
 			this.addOrder(ord);
 			update();
 			
-			//TODO: add first order to the material;
 			return true;
 		}else if(isInitialized == true
 				&& this.order_thickness == ord.order_thickness
@@ -148,12 +176,9 @@ public class Material {
 				&& this.doubling == ord.doubling
 				&& this.core_bore == ord.core_bore
 				&& this.core_type.equals(ord.core_type)){
+			// Add Order(오더만 추가)
 			return this.addOrder(ord);
-			//return false;
-			//	  vs
-			//return true;
-			//return true;
-		}else 
+		}else
 			return false;
 	}
 	/**

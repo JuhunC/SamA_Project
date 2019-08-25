@@ -41,6 +41,7 @@ public class Src {
 		
 		for(Material mat : materials) {
 			//if(mat.getLoss()<2.0)
+			if(mat.getLoss() < mat.weight)
 			//mat.print();
 			mat.printTable();
 			//break;
