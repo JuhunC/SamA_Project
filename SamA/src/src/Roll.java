@@ -8,6 +8,9 @@ public class Roll {
 	char doubling;
 	Vector<Order> ords = new Vector<Order>();
 	Vector<Section> sects = new Vector<Section>();
+	
+	String material_m;	// 원자재_M (제품생산구분)
+	String material_temper;		// 원자재_T (원자재 TEMPER)
 	/**
 	 * Divide into Section.class
 	 */
@@ -37,6 +40,8 @@ public class Roll {
 		this.order_temper = ord.order_temper;
 		this.alloy_code = ord.alloy_code.elementAt(0);
 		this.doubling = ord.doubling;
+		this.material_m = ord.material_m.elementAt(0);
+		this.material_temper = ord.material_temper;
 		ords.add(ord);
 	}
 	/**

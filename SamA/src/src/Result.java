@@ -1,6 +1,6 @@
 package src;
 import java.util.*;
-public class ResultFormat {
+public class Result {
 	Material mat;
 	int mat_index;
 	String ROLL;

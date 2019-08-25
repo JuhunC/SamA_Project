@@ -11,11 +11,10 @@ public class Src {
 	public static void main(String args[]) {
 		Format.set_file_path(format_dir);
 		Trim.set_file_path(format_dir);
+		
 		Vector<Order> orders = OrderReader.Read(format_dir);
 		Vector<Material> materials = MaterialReader.Read(material_dir);
 
-		
-		
 		for(int i =0;i<13;i++) {
 			Vector<Order> weekOrder = Sort.getWeekOrder(orders, i);
 			System.out.println(i+" week : "+weekOrder.size()+" orders");
@@ -28,14 +27,13 @@ public class Src {
 		}
 		
 		
-		
 		Vector<Roll> rolls = RollDivider.getRolls(week1_ords);
-		
 		for(Roll roll : rolls) {
 			System.out.println();
 			roll.dividedIntoSections();
 			roll.print();
 		}
+		
 		
 		
 		

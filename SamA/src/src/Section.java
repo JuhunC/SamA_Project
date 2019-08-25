@@ -46,6 +46,7 @@ public class Section {
 				+core_type+"\t");
 		for(Order ord: ords) {
 			System.out.print(ord.order_code+"\t");
+			//System.out.print(ord.material_temper+"\t");
 		}System.out.println();
 	}
 }
