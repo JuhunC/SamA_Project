@@ -1,5 +1,7 @@
 package src;
 import java.util.*;
+
+import Standard.Format;
 public class Order implements Comparable<Order>{
 	public int team_num;				// 팀
 	public String customer;				// 고객명
@@ -21,30 +23,28 @@ public class Order implements Comparable<Order>{
 	public Vector<String> material_m = new Vector<String>();	// 원자재_M (제품생산구분)
 	public String material_temper;		// 원자재_T (원자재 TEMPER)
 	public Vector<Float> weightByWeek;	// 매주 원자재 투입량
-	public void print() {
-		System.out.println(
-				team_num +"\t"
-				+ customer + "\t"
-				+ order_type + "\t"
-				+ specific_order_type+"\t"
-				+ consider + "\t"
-				+ order_code + "      \t"
-				+ order_thickness + "\t"
-				+ order_breadth + "\t"
-				+ order_length + "\t"
-				+ order_length_min + "\t"
-				+ order_length_max + "\t"
-				+ alloy_code + "\t"
-				+ alloy + "\t"
-				+ order_temper + "\t"
-				+ doubling + "\t"
-				+ core_bore + "\t"
-				+ core_type + "\t"
-				+ material_m + "\t"
-				+ material_temper + "\t"
-				+ weightByWeek+"\t"
-				);
-	}
+	/**
+	 * Order Constructor(오더 생성자)
+	 * @param team_num	팀
+	 * @param customer	고객명
+	 * @param order_type	품목
+	 * @param specific_order_type	세부품목
+	 * @param consider	폭조합
+	 * @param order_code	제품코드
+	 * @param order_thickness	두께
+	 * @param order_breadth	폭
+	 * @param order_length	길이
+	 * @param order_length_min	최소길이
+	 * @param order_length_max	최대길이
+	 * @param alloy_code	(AB,AC,...) format
+	 * @param order_temper	(A***) format
+	 * @param doubling	TEMPER
+	 * @param core_bore	권취
+	 * @param core_type	내경
+	 * @param material_m	코아
+	 * @param material_temper	원자재_T (원자재 TEMPER)
+	 * @param weightByWeek	매주 원자재 투입량
+	 */
 	Order(int team_num, 
 			String customer,
 			String order_type,
@@ -93,8 +93,38 @@ public class Order implements Comparable<Order>{
 		this.material_temper = material_temper;
 		this.weightByWeek = weightByWeek;
 	}
+	/**
+	 * Set Priority(우선순위 사용)
+	 */
 	@Override
 	public int compareTo(Order ord) {
 		return (int)(ord.order_breadth - this.order_breadth);
+	}
+	/**
+	 * Basic Print Method
+	 */
+	public void print() {
+		System.out.println(
+				team_num +"\t"
+				+ customer + "\t"
+				+ order_type + "\t"
+				+ specific_order_type+"\t"
+				+ consider + "\t"
+				+ order_code + "      \t"
+				+ order_thickness + "\t"
+				+ order_breadth + "\t"
+				+ order_length + "\t"
+				+ order_length_min + "\t"
+				+ order_length_max + "\t"
+				+ alloy_code + "\t"
+				+ alloy + "\t"
+				+ order_temper + "\t"
+				+ doubling + "\t"
+				+ core_bore + "\t"
+				+ core_type + "\t"
+				+ material_m + "\t"
+				+ material_temper + "\t"
+				+ weightByWeek+"\t"
+				);
 	}
 }

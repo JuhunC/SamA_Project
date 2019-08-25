@@ -1,4 +1,4 @@
-package src;
+package Standard;
 import java.util.*;
 import java.io.*;
 import org.apache.poi.ss.usermodel.*;
@@ -6,7 +6,11 @@ import org.apache.poi.EncryptedDocumentException;
 public class Format {
 	private static DataFormatter df = new DataFormatter();
 	public static Map<String,String> Alloy = new HashMap<String, String>();		// CODE(AB,AC,..) : ALLOY(A****)
-	Format(String file_path){
+	/**
+	 * Set Format File
+	 * @param file_path	파일위치
+	 */
+	public static void set_file_path(String file_path){
 		Workbook workbook;
 		try {
 			workbook = WorkbookFactory.create(new File(file_path));
@@ -28,7 +32,7 @@ public class Format {
         				df.formatCellValue(r.getCell(3)).toString()
         				);
 	        }
-	        
+	        workbook.close();
 		} catch (EncryptedDocumentException e) {
 			System.err.println("Wrong Format File : " + file_path);
 			e.printStackTrace();
@@ -36,8 +40,19 @@ public class Format {
 			System.err.println("File : "+file_path+" not found!");
 			e.printStackTrace();
 		}	
+		
 	}
+	/**
+	 * Get Alloy_code using Alloy
+	 * @param alloy	(A***)
+	 * @return alloy_code(AB,AC...)
+	 */
 	public static String getAlloyCode(String alloy) {
+		if(Alloy.size() <=0 ) {
+			System.err.println("Set File directory for Format.class");
+			return null;
+		}
+		
 		for(Map.Entry<String, String> entry : Alloy.entrySet()) {
 			if(alloy.equals(entry.getValue())){
 				return entry.getKey();
@@ -45,7 +60,16 @@ public class Format {
 		}
 		return "";
 	}
+	/**
+	 * Get Alloy using Alloy_code
+	 * @param alloy_code(AB,AC...)
+	 * @return alloy(A***)
+	 */
 	public static String getAlloy(String alloy_code) {
+		if(Alloy.size() <=0 ) {
+			System.err.println("Set File directory for Format.class");
+			return null;
+		}
 		return Alloy.get(alloy_code);
 	}
 }

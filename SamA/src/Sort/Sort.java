@@ -3,7 +3,7 @@ import java.util.*;
 import src.*;
 public class Sort {
 	/**
-	 * Sort Orders by Breadth(폭)
+	 * Sort Orders by Breadth(폭 크기로 정리)
 	 * @param ords
 	 * @return
 	 */
@@ -15,10 +15,10 @@ public class Sort {
 		return ords;
 	}
 	/**
-	 * Get orders from specific Week
-	 * @param ori_ords
-	 * @param idx
-	 * @return
+	 * Get orders from specific Week(특정 주차의 오더 구분)
+	 * @param ori_ords 오더들
+	 * @param idx	주차
+	 * @return	Vector<Order> 주차 오더들
 	 */
 	public static Vector<Order> getWeekOrder(Vector<Order> ori_ords, int idx){
 		Vector<Order> orders = new Vector<Order>();

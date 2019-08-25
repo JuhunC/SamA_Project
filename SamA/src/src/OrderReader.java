@@ -6,7 +6,11 @@ import java.util.*;
 public class OrderReader {
 	private static int error = -1;
 	private static DataFormatter df = new DataFormatter();
-	
+	/**
+	 * Read Order from File(파일에서 오더 읽기)
+	 * @param file_path	파일위치
+	 * @return	Vector<Order> ords 오더목록
+	 */
 	public static Vector<Order> Read(String file_path) {
 		Vector<Order> orders = new Vector<Order>();
 		

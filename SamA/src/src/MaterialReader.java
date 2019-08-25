@@ -6,7 +6,11 @@ import java.util.*;
 public class MaterialReader {
 	private static int error = -1;
 	private static DataFormatter df = new DataFormatter();
-	
+	/**
+	 * Read Materials from file(파일에서 원자재 읽기)
+	 * @param file_path	파일위치
+	 * @return Vector<Material> mats	원자재 보유 목록
+	 */
 	public static Vector<Material> Read(String file_path){
 		Vector<Material> materials = new Vector<Material>();
 		Workbook workbook;

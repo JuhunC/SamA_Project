@@ -7,22 +7,17 @@ public class ResultFormat {
 	String STRIP_LOT;
 	int mat_weight;
 	Vector<Order> ords;
-	Vector<Integer> order_num;
-	int order_thickness;
+	Vector<Integer> order_num;	// 개수
+	int order_thickness;		// 두께
 	int order_length;			// 길이
 	int repeat;					// 횟수	
 	String core_type;			// 코아
 	int core_bore;				// 내경
 	
-	
-	
-	
-	
-	
 	/**
 	 * Check (Order thickness/length/core_type/core_bore)
-	 * @param ord
-	 * @return
+	 * @param ord	오더
+	 * @return	boolean 결과에 같이 사용될 수 있는지 판단
 	 */
 	boolean isSameResult(Order ord) {
 		if(ord.order_thickness == this.order_thickness
@@ -35,8 +30,8 @@ public class ResultFormat {
 	}
 	/**
 	 * Add an Order x Num
-	 * @param ord
-	 * @param num
+	 * @param ord	오더
+	 * @param num	오더개수
 	 */
 	boolean addOrder(Order ord, int num) {
 		if(isSameResult(ord)== true) {
@@ -49,7 +44,7 @@ public class ResultFormat {
 	
 	/**
 	 * Return Number of Orders:오더의 개수 반환
-	 * @return
+	 * @return int 오더의 개수
 	 */
 	int getOrderSize() {
 		return ords.size();

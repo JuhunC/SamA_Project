@@ -8,7 +8,9 @@ public class Roll {
 	char doubling;
 	Vector<Order> ords = new Vector<Order>();
 	Vector<Section> sects = new Vector<Section>();
-	
+	/**
+	 * Divide into Section.class
+	 */
 	void dividedIntoSections() {
 		for(Order ord : ords) {
 			boolean added =false;
@@ -26,7 +28,10 @@ public class Roll {
 			}
 		}
 	}
-
+	/**
+	 * Roll Constructor(롤 생성자-오더)
+	 * @param ord	오더
+	 */
 	Roll(Order ord){
 		this.order_thickness = ord.order_thickness;
 		this.order_temper = ord.order_temper;
@@ -34,6 +39,13 @@ public class Roll {
 		this.doubling = ord.doubling;
 		ords.add(ord);
 	}
+	/**
+	 * Roll Constructor(롤 생성자-param)
+	 * @param order_thickness 오더두께
+	 * @param order_temper	 원자재_T (원자재 TEMPER)
+	 * @param alloy_code	(AB,AC,...) format
+	 * @param doubling	권취
+	 */
 	Roll(float order_thickness, String order_temper,
 			String alloy_code, char doubling){
 		this.order_thickness = order_thickness;
@@ -41,9 +53,18 @@ public class Roll {
 		this.alloy_code = alloy_code;
 		this.doubling = doubling;
 	}
+	/**
+	 * Add order to Roll(오더 추가)
+	 * @param ord	오더
+	 */
 	void add(Order ord) {
 		ords.add(ord);
 	}
+	/**
+	 * can be within the Group(그룹에 추가 가능한지 여부)
+	 * @param ord 오더
+	 * @return	boolean 오더 추가가능 여부
+	 */
 	boolean isGroup(Order ord) {
 		if(order_thickness==ord.order_thickness
 				&& ord.order_temper.equals(this.order_temper)
@@ -56,6 +77,9 @@ public class Roll {
 		}
 		return false;
 	}
+	/**
+	 * Basic Print Method
+	 */
 	void print() {
 		System.out.print(
 				this.order_thickness+"\t"

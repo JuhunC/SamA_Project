@@ -7,8 +7,8 @@ public class Section {
 	Vector<Order> ords = new Vector<Order>();
 	
 	/**
-	 * Constructor
-	 * @param ord
+	 * Section Constructor(섹션 생성자)
+	 * @param ord	오더
 	 */
 	Section(Order ord){
 		this.order_length = ord.order_length;
@@ -17,15 +17,15 @@ public class Section {
 	}
 	/**
 	 * add Order to the Section
-	 * @param ord
+	 * @param ord 오더
 	 */
 	void addOrder(Order ord) {
 		ords.add(ord);
 	}
 	/**
-	 * Decide Order can be used in this Section
-	 * @param ord Order to be tested
-	 * @return boolean
+	 * Decide Order can be used in this Section(오더가 포함가능한지 판단 여부)
+	 * @param ord 오더
+	 * @return boolean	포함가능여부
 	 */
 	boolean isSection(Order ord) {
 		if(this.order_length == ord.order_length
@@ -36,7 +36,7 @@ public class Section {
 			return false;
 	}
 	/**
-	 * Print Section Information
+	 * Basic Print Method
 	 */
 	void print() {
 		System.out.print("Section:"

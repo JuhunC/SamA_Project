@@ -1,5 +1,8 @@
 package src;
 import java.util.*;
+
+import Standard.Format;
+
 import java.text.*;
 public class Material {
 	public String material_code;	// 제품코드
@@ -12,6 +15,18 @@ public class Material {
 	public String material_temper;	// TEMPER
 	public int weight;				// 포장중량
 	public Date produced_date;		// 생산일자
+	/**
+	 * Material Constructor
+	 * @param material_code	제품코드
+	 * @param ROLL ROLL
+	 * @param STRIP_LOT	STRIP LOT
+	 * @param material_thickness	실두께
+	 * @param material_breadth	실폭
+	 * @param alloy	(AB,AC,...) format
+	 * @param material_temper	(A***) format
+	 * @param weight	포장중량
+	 * @param Date_str	생산일자
+	 */
 	Material(String material_code,
 			String ROLL,
 			String STRIP_LOT,
@@ -41,9 +56,16 @@ public class Material {
 			System.err.println("Wrong Date Format");
 		}		
 	}
+	/**
+	 * Get Material Maker (원자제 제작회사 약자 getter)
+	 * @return material_m
+	 */
 	String getMaterial_M() {
 		return ""+ material_code.charAt(material_code.length()-1);
 	}
+	/**
+	 * Basic Print Method
+	 */
 	void print() {
 		System.out.println(
 				material_code+"\t"

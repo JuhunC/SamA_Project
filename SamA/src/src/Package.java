@@ -12,6 +12,10 @@ public class Package {
 	public Vector<Order>ords = new Vector<Order>();
 	public Vector<Material>mats = new Vector<Material>();
 
+	/**
+	 * Package Constructor(오더를 기본으로 선택)
+	 * @param ord
+	 */
 	Package(Order ord){
 		this.addOrder(ord);
 		this.order_thickness = ord.order_thickness;
@@ -23,12 +27,21 @@ public class Package {
 	}
 	
 	
-	
+	/**
+	 * Is Material(가능한 원자재인지 판단)
+	 * @param mat	원자재
+	 * @return boolean 사용 가능 여부
+	 */
 	boolean isMaterial(Material mat) {
 		if(mat.alloy_code.equals(this.alloy_code))
 				return true;
 		else return false;
 	}
+	/**
+	 * Is Order(포함 가능한 오더인지 판단)
+	 * @param ord	오더
+	 * @return	boolean	포함 여부
+	 */
 	boolean isOrder(Order ord) {
 		if(ord.order_thickness == this.order_thickness
 				&& ord.core_bore == this.core_bore
@@ -37,6 +50,10 @@ public class Package {
 			return true;
 		else return false;
 	}
+	/**
+	 * Add Order to Package
+	 * @param ord	오더
+	 */
 	public void addOrder(Order ord) {
 		for(Order or: ords) {
 			if(or.order_code.equals(ord.order_code))
@@ -44,6 +61,10 @@ public class Package {
 		}
 		ords.add(ord);
 	}
+	/**
+	 * Add material to Package
+	 * @param mat	원자재
+	 */
 	public void addMaterial(Material mat) {
 		for(Material ma: mats) {
 			if(ma.material_code.equals(mat.material_code))
