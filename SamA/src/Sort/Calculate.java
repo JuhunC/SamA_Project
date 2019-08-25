@@ -13,7 +13,7 @@ public class Calculate {
 	 * @param weight			중량(㎏)
 	 * @return	calculated_thickness 	계산치두께(㎛)
 	 */
-	double calculateThickness(double order_thickness, int order_length, int weight) {
+	public static double calculateThickness(double order_thickness, int order_length, int weight) {
 		return (weight*1000000)/(order_thickness*order_length*2.71);
 	}
 	/**
@@ -23,7 +23,7 @@ public class Calculate {
 	 * @param weight			중량(㎏)
 	 * @return length			제품 길이(m)
 	 */
-	int calculateOrderLength(double order_thickness, double order_breadth, int weight) {
+	public static int calculateOrderLength(double order_thickness, double order_breadth, int weight) {
 		return (int)(weight/order_thickness/order_breadth/2.71/0.000001);
 	}
 	/**
@@ -33,7 +33,7 @@ public class Calculate {
 	 * @param STRIP_weight		STRIP중량(㎏)
 	 * @return	order_length	제품 길이(m)
 	 */
-	int calculateOrderLength_onProduction(double order_thickness, double STRIP_breadth, int STRIP_weight) {
+	public static int calculateOrderLength_onProduction(double order_thickness, double STRIP_breadth, int STRIP_weight) {
 		return (int)((STRIP_weight*Calculate.transference_rate)/order_thickness/STRIP_breadth/2.71/0.000001);
 	}
 	/**

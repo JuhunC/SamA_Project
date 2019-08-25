@@ -1,6 +1,7 @@
 package src;
 import java.util.*;
 
+import Sort.Calculate;
 import Standard.Format;
 public class Order implements Comparable<Order>{
 	public int team_num;				// 팀
@@ -23,6 +24,7 @@ public class Order implements Comparable<Order>{
 	public Vector<String> material_m = new Vector<String>();	// 원자재_M (제품생산구분)
 	public String material_temper;		// 원자재_T (원자재 TEMPER)
 	public Vector<Float> weightByWeek;	// 매주 원자재 투입량
+
 	/**
 	 * Order Constructor(오더 생성자)
 	 * @param team_num	팀

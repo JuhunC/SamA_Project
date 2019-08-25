@@ -13,7 +13,7 @@ public class Material {
 	public String alloy_code;		// (AB,AC,...) format
 	public String alloy;			// (A***) format
 	public String material_temper;	// TEMPER
-	public int weight;				// 포장중량
+	public double weight;				// 포장중량
 	public Date produced_date;		// 생산일자
 	/**
 	 * Material Constructor

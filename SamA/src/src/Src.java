@@ -34,7 +34,71 @@ public class Src {
 			roll.print();
 		}
 		
+		System.out.println("**************************************");
 		
+		for(Roll roll : rolls) {
+			// find material
+			Material match_mat = null;
+			for(int i =0;i<materials.size();i++) {
+				Material mat = materials.elementAt(i);
+				if(mat.material_temper.equals(roll.material_temper)
+					&& mat.getMaterial_M().equals(roll.material_m)){
+					match_mat = mat;
+					break;
+				}
+			}
+			
+			// start ÆøÁ¶ÇÕ
+			int week = 0;
+			if(match_mat==null) {
+				System.err.println("No Matching Material Found!!");
+			}else {
+				for(Section sect : roll.sects) {
+					Collections.sort(sect.ords);
+					int breadth = match_mat.material_breadth;
+					Stack<Order> cur_ord = new Stack<Order>();
+					int cur_breadth = 0;
+					int order_cnt =0;
+					for(int idx = 0; idx<sect.ords.size();idx++) {
+						Order ord = sect.ords.elementAt(idx);
+						if(ord.weightByWeek.elementAt(week)>0) {
+							cur_ord.add(ord);
+							cur_breadth += ord.order_breadth;
+							order_cnt++;
+							int trim_rate = Trim.getTrimRate(roll.order_type, roll.specific_order_type, order_cnt);
+							if(trim_rate >= 0
+								&& cur_breadth + trim_rate<breadth) {
+								idx--;
+								continue;
+							}else {
+								cur_ord.pop();
+								cur_breadth-=ord.order_breadth;
+								order_cnt--;
+							}
+						}
+					}
+					double mat_weight = match_mat.weight;
+					double cal_weight = Calculate.getWeight(roll.order_thickness, sect.order_length, cur_breadth);
+					
+					
+					
+					System.out.println();
+					match_mat.print();
+					if(cur_ord.size()>0) {
+						System.out.println((cur_breadth+Trim.getTrimRate(roll.order_type, roll.specific_order_type, cur_ord.size()))+"/"+match_mat.material_breadth);
+						for(int i =0;i<cur_ord.size();i++) {
+							System.out.print(cur_ord.elementAt(i).order_code+"\t");
+							//cur_ord.elementAt(i).print();
+						}
+					}
+					System.out.println();
+				}
+			}
+			
+			
+			
+			
+		}
 		
 		
 //		System.out.println(Calculate.getTimes(9,24000,1238,4.3));

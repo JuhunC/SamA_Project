@@ -9,8 +9,13 @@ public class Roll {
 	Vector<Order> ords = new Vector<Order>();
 	Vector<Section> sects = new Vector<Section>();
 	
+	// 원자재 구분
 	String material_m;	// 원자재_M (제품생산구분)
 	String material_temper;		// 원자재_T (원자재 TEMPER)
+	
+	// Trimming 미미 구분
+	String order_type;
+	String specific_order_type;
 	/**
 	 * Divide into Section.class
 	 */
@@ -42,6 +47,8 @@ public class Roll {
 		this.doubling = ord.doubling;
 		this.material_m = ord.material_m.elementAt(0);
 		this.material_temper = ord.material_temper;
+		this.order_type = ord.order_type;
+		this.specific_order_type = ord.specific_order_type;
 		ords.add(ord);
 	}
 	/**

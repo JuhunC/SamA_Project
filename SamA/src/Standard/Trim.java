@@ -29,7 +29,7 @@ public class Trim {
 			if(Trim.order_type.elementAt(i).equals(order_type)
 				&& Trim.specific_order_type.elementAt(i).equals(specific_order_type)
 					) {
-				return Trim.cut.elementAt(cut).elementAt(i);
+				return Trim.cut.elementAt(cut-1).elementAt(i);
 			}
 		}
 		return -1;
