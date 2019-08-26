@@ -65,7 +65,7 @@ public class Material {
 		System.out.println(doubling+"\t"+order_temper+"\t"+this.alloy);
 		for(int r=0;r<10;r++) {
 			System.out.print(this.t_thickness[r]+"\t|\t");
-			for(int c=0;c<10;c++) {
+			for(int c=0;c<5;c++) {
 				System.out.print(this.t_breadth[r][c]+"\t");
 			}
 			System.out.print(this.t_length[r]+"นฬลอ\t|\t"
