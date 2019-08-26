@@ -38,8 +38,13 @@ public class Material {
 	public int t_length[] = new int[ROW];
 	public int t_length_sum = 0;
 	public double t_weight_t[] = new double[ROW];
-	public double t_wegiht[][] = new double[ROW][COL];
+	public double t_weight[][] = new double[ROW][COL];
 	public double t_sum_weight = 0;
+	public double t_pure_weight = 0;
+
+	
+	public int t_core_bore[] = new int[ROW];
+	public String t_core_type[] = new String[ROW];
 	/**
 	 * get Loss Weight(ton)
 	 * @return
@@ -55,15 +60,18 @@ public class Material {
 		if(isInitialized == false)
 			return;
 		System.out.println();
-		System.out.println(this.material_code+"\t"+this.material_breadth+"\t"+this.getLoss()+"/"+this.weight);
-		System.out.println(this.core_bore+"\t"+this.core_type+"\t"+doubling+"\t"+order_temper+"\t"+this.alloy);
+		System.out.println(this.material_code+"\t"+this.material_breadth+"\t"+this.getLoss()+"/"+this.weight
+				+"\t"+(this.weight-this.t_pure_weight) +"/"+this.weight);
+		System.out.println(doubling+"\t"+order_temper+"\t"+this.alloy);
 		for(int r=0;r<10;r++) {
 			System.out.print(this.t_thickness[r]+"\t|\t");
 			for(int c=0;c<10;c++) {
 				System.out.print(this.t_breadth[r][c]+"\t");
 			}
-			System.out.print(this.t_length[r]+"|");
-			System.out.print(this.t_weight_t[r]+"\n");
+			System.out.print(this.t_length[r]+"미터\t|\t"
+					+this.t_breadth_total[r]+"mm\t|\t");
+			System.out.print(this.t_weight_t[r]+"톤\t|\t"+this.t_core_bore[r]
+					+"\t|\t"+this.t_core_type[r]+"\n");
 		}
 		System.out.println();
 	}
@@ -71,6 +79,7 @@ public class Material {
 	 * Update Order Table
 	 */
 	void update() {
+		this.t_pure_weight = 0;
 		for(int r= 0; r< ROW;r++) {
 			int breadth_sum = 0;
 			int cnt =0;
@@ -83,8 +92,9 @@ public class Material {
 			this.t_breadth_total[r] = breadth_sum;
 			this.t_weight_t[r] = Calculate.getWeight(this.t_thickness[r], this.t_length[r], this.material_breadth);
 			for(int c=0;c<COL;c++) {
-				this.t_wegiht[r][c] = this.t_thickness[r]*this.t_breadth[r][c]
+				this.t_weight[r][c] = this.t_thickness[r]*this.t_breadth[r][c]
 						*this.t_length[r]*2.71*0.000001/1000;
+				this.t_pure_weight += this.t_weight[r][c];
 			}
 		}
 		t_sum_weight = 0;
@@ -108,16 +118,22 @@ public class Material {
 				if(this.t_thickness[r] == 0) {// New Input(row) 열에 첫 오더 추가
 					// 총 길이 초과(열의 합) && 무게 초과 확인(미미 포함)
 					if(this.t_length_sum+ord.order_length < this.max_len
-							&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
+							&& this.t_sum_weight + Calculate.getWeight(ord.order_thickness, ord.order_length, this.material_breadth) < weight
+							&& ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1)< this.material_breadth) {
+							//&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
 						this.t_thickness[r] = ord.order_thickness;
 						this.t_breadth[r][0] = ord.order_breadth;
 						this.t_length[r] = ord.order_length;
+						this.t_core_bore[r] = ord.core_bore;
+						this.t_core_type[r] = ord.core_type;
 						return true;
 					}
 					return false; // 길이 초과 혹은 무게 초과(미미포함)
 				}else {
 					// 존재하던 열에 추가
-					if(this.t_thickness[r] == ord.order_thickness) { // 두께 일치
+					if(this.t_thickness[r] == ord.order_thickness
+							&& this.t_core_bore[r] == ord.core_bore
+							&& this.t_core_type[r].equals(ord.core_type)) { // 두께 일치
 						int cnt = 0;
 						float sum =0;
 						for(int c=0;c<COL;c++) {
@@ -157,8 +173,8 @@ public class Material {
 			this.order_alloy_code = ord.alloy_code.elementAt(0);
 			this.order_temper = ord.order_temper;
 			this.doubling = ord.doubling;
-			this.core_bore = ord.core_bore;
-			this.core_type = ord.core_type;
+//			this.core_bore = ord.core_bore;
+//			this.core_type = ord.core_type;
 			this.max_len = Calculate.calculateOrderLength((double)this.order_thickness, (double)this.material_breadth, (int)this.weight*1000);
 			
 			// Add order(오더 추가)
@@ -174,8 +190,9 @@ public class Material {
 				&& this.material_temper.equals(ord.material_temper)
 				&& this.getMaterial_M().equals(ord.material_m.elementAt(0))
 				&& this.doubling == ord.doubling
-				&& this.core_bore == ord.core_bore
-				&& this.core_type.equals(ord.core_type)){
+//				&& this.core_bore == ord.core_bore
+//				&& this.core_type.equals(ord.core_type)
+				){
 			// Add Order(오더만 추가)
 			return this.addOrder(ord);
 		}else
