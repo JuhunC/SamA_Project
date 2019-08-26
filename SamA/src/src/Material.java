@@ -95,7 +95,7 @@ public class Material {
 		}
 	}
 	/**
-	 * Add Order(if possible)
+	 * Add Order(if possible - columns first, then rows)
 	 * @param ord ¿À´õ
 	 * @return	boolean
 	 */
