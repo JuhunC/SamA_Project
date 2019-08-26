@@ -33,6 +33,7 @@ public class Material {
 	public static int ROW = 100;
 	public static int COL = 10;
 	public float t_breadth[][] = new float[ROW][COL];
+	public String t_order_code[][] = new String[ROW][COL];
 	public float t_thickness[]= new float [ROW];
 	public int t_breadth_total[] = new int[ROW];
 	public int t_length[] = new int[ROW];
@@ -72,6 +73,14 @@ public class Material {
 					+this.t_breadth_total[r]+"mm\t|\t");
 			System.out.print(this.t_weight_t[r]+"Åæ\t|\t"+this.t_core_bore[r]
 					+"\t|\t"+this.t_core_type[r]+"\n");
+		}
+		for(int r=0;r<10;r++) {
+			System.out.print("\t\t");
+			for(int c=0;c<5;c++) {
+				if(this.t_order_code[r][c] != null)
+					System.out.print(this.t_order_code[r][c]+"\t");
+				else System.out.print("\t\t\t");
+			}System.out.println();
 		}
 		System.out.println();
 	}
@@ -123,6 +132,7 @@ public class Material {
 							//&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
 						this.t_thickness[r] = ord.order_thickness;
 						this.t_breadth[r][0] = ord.order_breadth;
+						this.t_order_code[r][0] = ord.order_code;
 						this.t_length[r] = ord.order_length;
 						this.t_core_bore[r] = ord.core_bore;
 						this.t_core_type[r] = ord.core_type;
@@ -146,6 +156,7 @@ public class Material {
 							&& sum + ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, cnt+1)<=this.material_breadth
 							&& ord_weight+ this.t_sum_weight < weight) {
 							t_breadth[r][cnt] = ord.order_breadth;
+							t_order_code[r][cnt] = ord.order_code;
 							return true;
 						}
 					}
