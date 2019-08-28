@@ -175,7 +175,8 @@ public class Material {
 		if(isInitialized == false
 				&& ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) < this.material_breadth
 				&& ord.material_m.elementAt(0).equals(this.getMaterial_M())
-				&& ord.material_temper.equals(this.material_temper)) {
+				&& ord.material_temper.equals(this.material_temper)
+				&& ord.alloy_code.elementAt(0).equals(this.alloy_code)) {
 			// Initialize Order Table for this material
 			isInitialized = true;
 			// Initialize Grouping Method Variable
@@ -198,9 +199,12 @@ public class Material {
 				//&& this.order_alloy.equals(ord.alloy.elementAt(0))
 				&& this.order_alloy_code.equals(ord.alloy_code.elementAt(0))
 				&& this.order_temper.equals(ord.order_temper)
+				//&& this.material_temper.equals(ord.material_temper)
 				&& this.material_temper.equals(ord.material_temper)
 				&& this.getMaterial_M().equals(ord.material_m.elementAt(0))
 				&& this.doubling == ord.doubling
+				&& this.alloy_code.equals(ord.alloy_code.elementAt(0))
+//				&& this.alloy.equals(ord.alloy.elementAt(0))
 //				&& this.core_bore == ord.core_bore
 //				&& this.core_type.equals(ord.core_type)
 				){
