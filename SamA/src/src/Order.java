@@ -111,7 +111,11 @@ public class Order implements Comparable<Order>{
 	 */
 	@Override
 	public int compareTo(Order ord) {
-		return (int)(ord.order_breadth - this.order_breadth);
+		// Decreasing Order
+		// return (int)(ord.order_breadth - this.order_breadth);
+		// Increasing Order
+		 return (int)(this.order_breadth - ord.order_breadth);
+			
 	}
 	/**
 	 * Basic Print Method

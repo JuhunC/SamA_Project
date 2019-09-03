@@ -121,48 +121,94 @@ public class Material {
 	boolean addOrder(Order ord) {
 		// weight of one Order product
 		double ord_weight = Calculate.getWeight(ord.order_thickness, ord.order_length, ord.order_breadth);
-		
-		if(ord_weight + this.t_sum_weight < this.weight) { // Check OverWeight(무게 초과 확인)
-			for(int r=0;r<ROW;r++) {
-				if(this.t_thickness[r] == 0) {// New Input(row) 열에 첫 오더 추가
-					// 총 길이 초과(열의 합) && 무게 초과 확인(미미 포함)
+		for(int c=0;c<COL;c++) {
+			for(int r =0; r<ROW;r++) {
+				if(this.t_thickness[r] == 0) {
 					if(this.t_length_sum+ord.order_length < this.max_len
-							&& this.t_sum_weight + Calculate.getWeight(ord.order_thickness, ord.order_length, this.material_breadth) < weight
+							&& this.t_sum_weight + ord_weight < weight
 							&& ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1)< this.material_breadth) {
-							//&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
 						this.t_thickness[r] = ord.order_thickness;
-						this.t_breadth[r][0] = ord.order_breadth;
-						this.t_order_code[r][0] = ord.order_code;
+						this.t_breadth[r][c] = ord.order_breadth;
+						this.t_order_code[r][c] = ord.order_code;
 						this.t_length[r] = ord.order_length;
 						this.t_core_bore[r] = ord.core_bore;
 						this.t_core_type[r] = ord.core_type;
 						return true;
-					}
-					return false; // 길이 초과 혹은 무게 초과(미미포함)
-				}else {
+					}else // end of first column -> go to next column
+						break;
+					
+				}else if(this.t_thickness[r] == ord.order_thickness
+						&& this.t_core_bore[r] == ord.core_bore
+						&& this.t_core_type[0].equals(ord.core_type)) {
 					// 존재하던 열에 추가
-					if(this.t_thickness[r] == ord.order_thickness
-							&& this.t_core_bore[r] == ord.core_bore
+					if(this.t_core_bore[r] == ord.core_bore
 							&& this.t_core_type[r].equals(ord.core_type)) { // 두께 일치
 						int cnt = 0;
 						float sum =0;
-						for(int c=0;c<COL;c++) {
-							if(this.t_breadth[r][c]>0) {
-								sum += t_breadth[r][c];
+						for(int dc=0;dc<=c;dc++) {
+							if(this.t_breadth[r][dc]>0) {
+								sum += t_breadth[r][dc];
 								cnt++;
 							}
 						}
 						if(cnt<4
 							&& sum + ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, cnt+1)<=this.material_breadth
 							&& ord_weight+ this.t_sum_weight < weight) {
-							t_breadth[r][cnt] = ord.order_breadth;
-							t_order_code[r][cnt] = ord.order_code;
+							t_breadth[r][c] = ord.order_breadth;
+							t_order_code[r][c] = ord.order_code;
 							return true;
 						}
 					}
 				}
-			}// end of for(r)
-		}
+			}// end of for(row)
+		}// end of for(col)
+		
+		
+		
+//		
+//		if(ord_weight + this.t_sum_weight < this.weight) { // Check OverWeight(무게 초과 확인)
+//			for(int r=0;r<ROW;r++) {
+//				
+//				
+//				if(this.t_thickness[r] == 0) {// New Input(row) 열에 첫 오더 추가
+//					// 총 길이 초과(열의 합) && 무게 초과 확인(미미 포함)
+//					if(this.t_length_sum+ord.order_length < this.max_len
+//							&& this.t_sum_weight + Calculate.getWeight(ord.order_thickness, ord.order_length, this.material_breadth) < weight
+//							&& ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1)< this.material_breadth) {
+//							//&& ord_weight+Trim.getTrimRate(ord.order_type, ord.specific_order_type, 1) + t_sum_weight < weight) {
+//						this.t_thickness[r] = ord.order_thickness;
+//						this.t_breadth[r][0] = ord.order_breadth;
+//						this.t_order_code[r][0] = ord.order_code;
+//						this.t_length[r] = ord.order_length;
+//						this.t_core_bore[r] = ord.core_bore;
+//						this.t_core_type[r] = ord.core_type;
+//						return true;
+//					}
+//					return false; // 길이 초과 혹은 무게 초과(미미포함)
+//				}else {
+//					// 존재하던 열에 추가
+//					if(this.t_thickness[r] == ord.order_thickness
+//							&& this.t_core_bore[r] == ord.core_bore
+//							&& this.t_core_type[r].equals(ord.core_type)) { // 두께 일치
+//						int cnt = 0;
+//						float sum =0;
+//						for(int c=0;c<COL;c++) {
+//							if(this.t_breadth[r][c]>0) {
+//								sum += t_breadth[r][c];
+//								cnt++;
+//							}
+//						}
+//						if(cnt<4
+//							&& sum + ord.order_breadth + Trim.getTrimRate(ord.order_type, ord.specific_order_type, cnt+1)<=this.material_breadth
+//							&& ord_weight+ this.t_sum_weight < weight) {
+//							t_breadth[r][cnt] = ord.order_breadth;
+//							t_order_code[r][cnt] = ord.order_code;
+//							return true;
+//						}
+//					}
+//				}
+//			}// end of for(r)
+//		}
 		return false;
 	}
 	/**
