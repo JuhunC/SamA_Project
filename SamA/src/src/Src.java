@@ -21,31 +21,93 @@ public class Src {
 		}
 		for(Order ord : orders)
 			ord.setWeek(1, 4);
+
+//		Object[] ord_objs = orders.toArray();
+//		PermUtil<Order> permOrds=new PermUtil<Order>(Arrays.copyOf(ord_objs, ord_objs.length, Order[].class));
+		Object[] mat_objs = materials.toArray();
+		PermUtil<Material> permMats = new PermUtil<Material>(Arrays.copyOf(mat_objs, mat_objs.length,Material[].class));
 		
-		for(Order ord: orders) {
-			boolean changed = true;
-			while(true) {
-				if(changed == false || ord.times == 0)
-					break;
-				changed = false;
-				for(Material mat: materials) {
-					if(mat.addIfPossible(ord)) {
-						ord.times--;
-						changed = true;
-						break;
+		float min_waste = Float.MAX_VALUE;
+		Material[] best_mat =null;
+		
+		Material[] comp_mat;
+		while((comp_mat = permMats.next()) !=null) {
+			for(Material mat : comp_mat) {
+				mat.reset();
+			}
+			Object[] ord_objs = orders.toArray();
+			PermUtil<Order> permOrds=new PermUtil<Order>(Arrays.copyOf(ord_objs, ord_objs.length, Order[].class));
+			Order[] comp_ord;
+			while((comp_ord = permOrds.next()) !=null) {
+				
+//				for(Order ord : comp_ord) {
+//					System.out.print(ord.order_breadth+"\t");
+//				}System.out.println();
+				for(Order ord: comp_ord) {
+					boolean changed = true;
+					while(true) {
+						if(changed == false || ord.times == 0)
+							break;
+						changed = false;
+						for(Material mat: comp_mat) {
+							if(mat.addIfPossible(ord)) {
+								ord.times--;
+								changed = true;
+								break;
+							}
+						}
+						
 					}
 				}
-				
-			}
-		}
+				float waste = 0.0f;
+				for(Material mat : comp_mat) {
+					if(mat.isInitialized==true)
+					//if(mat.t_sum_weight > 0.0)
+						waste+= mat.getLoss();
+				}
+				if(waste < min_waste) {
+					min_waste = waste;
+					best_mat = comp_mat;
+					System.out.println("Update Min Waste:"+min_waste);
+				}else {
+					System.out.println(waste);
+				}
+			}// end of while(comp_ords)
+			
+		}// end of while(comp_mats)
 		
-		for(Material mat : materials) {
+		for(Material mat : best_mat) {
 			//if(mat.getLoss()<1.0)
 			if(mat.getLoss() != mat.weight)
 			//mat.print();
 			mat.printTable();
 			//break;
 		}
+		
+//		for(Order ord: orders) {
+//			boolean changed = true;
+//			while(true) {
+//				if(changed == false || ord.times == 0)
+//					break;
+//				changed = false;
+//				for(Material mat: materials) {
+//					if(mat.addIfPossible(ord)) {
+//						ord.times--;
+//						changed = true;
+//						break;
+//					}
+//				}
+//				
+//			}
+//		}
+		
+//		for(Material mat : materials) {
+//			//if(mat.getLoss()<1.0)
+//			if(mat.getLoss() != mat.weight)
+//			//mat.print();
+//			mat.printTable();
+//			//break;
+//		}
 //		Vector<Order> week1_ords = new Vector<Order>();
 //		for(Order ord : orders) {
 //			if(ord.weightByWeek.elementAt(0)!=0

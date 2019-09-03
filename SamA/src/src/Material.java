@@ -47,6 +47,30 @@ public class Material {
 	public int t_core_bore[] = new int[ROW];
 	public String t_core_type[] = new String[ROW];
 	/**
+	 * reset table of orders
+	 */
+	void reset() {
+		//max_len = 0;
+		isInitialized = false;
+//		order_thickness = 0;	
+//		order_alloy_code = null;
+//		order_alloy = null;
+//		order_temper = null;
+//		doubling = 0;
+//		core_bore = 0;
+//		core_type = null;
+		t_breadth = new float[ROW][COL];
+		t_order_code = new String[ROW][COL];
+		t_thickness= new float [ROW];
+		t_breadth_total = new int[ROW];
+		t_length = new int[ROW];
+		t_length_sum = 0;
+		t_weight_t = new double[ROW];
+		t_weight = new double[ROW][COL];
+		t_sum_weight = 0;
+		t_pure_weight = 0;
+	}
+	/**
 	 * get Loss Weight(ton)
 	 * @return
 	 */
