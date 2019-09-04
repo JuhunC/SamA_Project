@@ -59,14 +59,39 @@ public class Material {
 //		doubling = 0;
 //		core_bore = 0;
 //		core_type = null;
-		t_breadth = new float[ROW][COL];
-		t_order_code = new String[ROW][COL];
-		t_thickness= new float [ROW];
-		t_breadth_total = new int[ROW];
-		t_length = new int[ROW];
+//		t_breadth = null;
+//		t_order_code = null;
+//		t_thickness = null;
+//		t_length = null;
+//		t_weight_t = null;
+//		t_weight = null;
+		order_thickness = 0.0f;			//
+		order_alloy_code = new String();
+		order_alloy = new String();
+		order_temper = new String();
+		doubling = 0;
+		core_bore =0;
+		core_type = new String();
+		
+		for(int r =0;r<ROW;r++) {
+			for(int c=0;c<COL;c++) {
+				this.t_breadth[r][c]= 0.0f;
+				this.t_order_code[r][c] = null;
+				t_weight[r][c] = 0.0;
+			}
+			t_thickness[r] = 0.0f;
+			t_breadth_total[r] = 0;
+			t_length[r]=0;
+			t_weight_t[r] = 0.0;
+		}
+//		t_breadth = new float[ROW][COL];
+//		t_order_code = new String[ROW][COL];
+//		t_thickness= new float [ROW];
+//		t_breadth_total = new int[ROW];
+//		t_length = new int[ROW];
 		t_length_sum = 0;
-		t_weight_t = new double[ROW];
-		t_weight = new double[ROW][COL];
+//		t_weight_t = new double[ROW];
+//		t_weight = new double[ROW][COL];
 		t_sum_weight = 0;
 		t_pure_weight = 0;
 	}

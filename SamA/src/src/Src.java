@@ -24,22 +24,26 @@ public class Src {
 
 //		Object[] ord_objs = orders.toArray();
 //		PermUtil<Order> permOrds=new PermUtil<Order>(Arrays.copyOf(ord_objs, ord_objs.length, Order[].class));
-		Object[] mat_objs = materials.toArray();
-		PermUtil<Material> permMats = new PermUtil<Material>(Arrays.copyOf(mat_objs, mat_objs.length,Material[].class));
-		
+
 		float min_waste = Float.MAX_VALUE;
 		Material[] best_mat =null;
-		
-		Material[] comp_mat;
-		while((comp_mat = permMats.next()) !=null) {
-			for(Material mat : comp_mat) {
-				mat.reset();
-			}
-			Object[] ord_objs = orders.toArray();
-			PermUtil<Order> permOrds=new PermUtil<Order>(Arrays.copyOf(ord_objs, ord_objs.length, Order[].class));
-			Order[] comp_ord;
-			while((comp_ord = permOrds.next()) !=null) {
-				
+
+		Object[] ord_objs = orders.toArray();
+		PermUtil<Order> permOrds=new PermUtil<Order>(Arrays.copyOf(ord_objs, ord_objs.length, Order[].class));
+		Order[] comp_ord;
+		while((comp_ord = permOrds.next()) !=null) {
+			Object[] mat_objs = materials.toArray();
+			PermUtil<Material> permMats = new PermUtil<Material>(Arrays.copyOf(mat_objs, mat_objs.length,Material[].class));
+			Material[] comp_mat;
+			while((comp_mat = permMats.next()) !=null) {
+			
+			
+				for(Material mat : comp_mat) {
+					mat.reset();
+				}
+				for(Order ord : comp_ord) {
+					ord.setWeek(1,4);
+				}
 //				for(Order ord : comp_ord) {
 //					System.out.print(ord.order_breadth+"\t");
 //				}System.out.println();
@@ -56,7 +60,6 @@ public class Src {
 								break;
 							}
 						}
-						
 					}
 				}
 				float waste = 0.0f;
@@ -69,6 +72,8 @@ public class Src {
 					min_waste = waste;
 					best_mat = comp_mat;
 					System.out.println("Update Min Waste:"+min_waste);
+				}else if(waste == min_waste){
+					System.out.print("*");
 				}else {
 					System.out.println(waste);
 				}
