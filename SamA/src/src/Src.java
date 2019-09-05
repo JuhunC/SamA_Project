@@ -4,6 +4,18 @@ import Sort.*;
 import Standard.Format;
 import Standard.Trim;
 public class Src {
+	public static Order[] RandomizeArray(Order[] array){
+		Random rgen = new Random();  // Random number generator			
+ 
+		for (int i=0; i<array.length; i++) {
+		    int randomPosition = rgen.nextInt(array.length);
+		    Order temp = array[i];
+		    array[i] = array[randomPosition];
+		    array[randomPosition] = temp;
+		}
+ 
+		return array;
+	}
 	public static boolean verbose = false;
 	public static String order_plan_dir="./생산계획_작성중.xls";
 	public static String material_dir="./원자재내역.xls";
@@ -36,7 +48,7 @@ public class Src {
 			PermUtil<Material> permMats = new PermUtil<Material>(Arrays.copyOf(mat_objs, mat_objs.length,Material[].class));
 			Material[] comp_mat;
 			while((comp_mat = permMats.next()) !=null) {
-			
+				RandomizeArray(comp_ord);
 			
 				for(Material mat : comp_mat) {
 					mat.reset();
